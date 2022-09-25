@@ -1,19 +1,25 @@
+from time import time
 import random
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 class Sensor(BaseModel):
-    sensor_name = ''
-    sensor_data : float = 0.0
+    sensor_name_list : list = []
+    sensor_dict : dict ={}
 
     def init(self):
+        for key in self.sensor_name_list:
+            self.sensor_dict[key] = 0.0
         return self
     
     def getData(self):
-        self.sensor_data = round(random.uniform(0,100), 2)
+        self.sensor_dict['time'] = time()
+        for key in self.sensor_name_list:
+            self.sensor_dict[key] = round(random.uniform(0,100), 2)
 
-sensor1 = Sensor(sensor_name='T1').init()
+sensor_list = ['T1', 'T2', 'T3', 'T4', 'P1', 'P2', 'Pos']
+sensor1 = Sensor(sensor_name_list=sensor_list).init()
 
 application = FastAPI()
 
