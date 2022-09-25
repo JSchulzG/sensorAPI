@@ -3,10 +3,10 @@ RUN apt-get update \
 && apt-get install build-essential -y \
 && pip install poetry
 
-COPY ./pyproject.toml /test/
-WORKDIR /test/
+COPY ./pyproject.toml /sensorAPI/
+WORKDIR /sensorAPI/
 RUN poetry install
 
-COPY ./dataserver /test/dataserver
+COPY ./dataserver /sensorAPI/dataserver
 RUN poetry install
 ENTRYPOINT poetry run uvicorn dataserver.application:application --reload --host 0.0.0.0 --port 8080
